@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
+    <title>SortA</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+
+<body>
+
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <h5 id='hidethis'>Make A New Shopping List!</h5>
+
+            <form id='newListForm'>
+                <div>
+                    <input type="text" class="form-control" id="newList" placeholder="Enter New List">
+                </div>
+                <button type="submit" id='addList'>Submit</button>
+            </form>
+
+
+            <table class="table">
+                <span id='newListName'></span>
+                <thead>
+                    <tr>
+                        <th scope="col">Item</th>
+                    </tr>
+                </thead>
+
+                <tbody id='shoplist'>
+                </tbody>
+
+            </table>
+
+            <form id='listForm'>
+                <div class="form-group">
+                    <label>Next Item</label>
+                    <input type="text" class="form-control" id="newItem" placeholder="Enter item">
+                </div>
+                <button type="submit" id='addItem'>Submit</button>
+            </form>
+
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src='app.js'></script>
+
+</body>
+
+</html>
