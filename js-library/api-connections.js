@@ -35,7 +35,7 @@ var walmartEnpoints = {
         }
         return this.walmartHost + '/' + ep + 'apiKey=' + this.apiKey + "&categoryId=976759"
     },
-    walmartHost: 'http://api.walmartlabs.com/v1',
+    walmartHost: 'https://api.walmartlabs.com/v1',
     'apiKey': walmartApiKey,
     search: function (_query) {
         return ['search', ('?' + 'query=' + _query + '&')]
