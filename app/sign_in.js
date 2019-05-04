@@ -58,9 +58,15 @@ $(document).ready(function () {
     $(document).on('isLoggedIn', function (response) {
 
         var auth = response.message
-        if (auth.auth_passed.userid) {
+        var faild = auth.auth_faild 
+        if (faild) {
+            $('#loginBtn').prop('disabled', false)
+            return;
+        }
+        var pass = auth.auth_passed
+        if (pass.userid) {
             localStorage.setItem('useremail', $("#username").val())
-            localStorage.setItem('userid', auth.auth_passed.userid)
+            localStorage.setItem('userid', pass.userid)
             window.location.href = "userInterface.html"
         } else {
             $('#loginBtn').prop('disabled', false)
