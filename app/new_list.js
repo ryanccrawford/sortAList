@@ -2,6 +2,7 @@
 var lists = [];
 var user = {};
 var itemcount = 0; 
+var lat, lon;
 $(document).ready(function () {
     user.id = localStorage.getItem("userid");
     user.email = localStorage.getItem("useremail");
