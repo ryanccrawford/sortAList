@@ -17,3 +17,7 @@
   background-size: 100%;
   margin-top: 2px;
 }
+.card-content {
+  padding: 33px !important;
+
+}
