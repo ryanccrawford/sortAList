@@ -1,36 +1,66 @@
 //Login to Account
+var user;
 $(document).ready(function () {
 
-    var useremail = localStorage.getItem('email')
-    var userid = localStorage.getItem('userid')
-    if (useremail && userid) {
-        //TODO: AUTO LOGIN
-        //if there is local storage value for 'email and 'password', load those values into form
-
+    var errors = [];
+    var user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')): false;
+    var remember = localStorage.getItem("rememberme") ? localStorage.getItem("rememberme") : false;
+    if (user) {
+        $("#username").val(user.email)
+        $("#password").val(user.password)
+        localStorage.clear();
+    } else if (remember) {
+         var em = localStorage.getItem("email")
+        $("#username").val(em);
+        
     }
+
+    
     //Grab user input from text fields
     $("#loginBtn").on("click", function (event) {
+       
         event.preventDefault();
-        $('#loginBtn').prop('disabled', true)
+        $("#errors").hide();
+        $('#loginBtn').prop('disabled', true);
+        
         if ($("#username").val() != '') {
             var userEmail = $("#username").val().trim();
+        } else {
+            errors.push("Email can't be empty.")
         }
         if ($("#password").val() != '') {
             var userPassword = $("#password").val().trim();
+        } else {
+            errors.push("Password can't be empty.")
         }
-
-        data_LogInUser(userEmail, userPassword);
-
-        if ($('#indeterminate-checkbox') = true) {
-            localStorage.setItem("email", userEmail);
-            localStorage.setItem("password", userPassword);
+         if ($('#indeterminate-checkbox').prop('checked') == true) {
+             localStorage.setItem("email", userEmail);
+             localStorage.setItem("rememberme", 1);
+         } else {
+             localStorage.setItem("rememberme", 0);
+         }
+        if (errors.length === 0) {
+            data_LogInUser(userEmail, userPassword);
+        } else {
+            //TODO: DISPLAY ERRORS
+            $('#errors').empty();
+            errors.forEach(function (error) {
+                var p = $('<p>');
+                p.text(error);
+                $('#errors').append(p);
+            })
+            $('#errors').show();
+            $('#loginBtn').prop('disabled', false);
         }
+       
     })
 
     $(document).on('isLoggedIn', function (response) {
 
-        var userinfo = response.message
-        if (userinfo.userid) {
+        var auth = response.message
+        if (auth.auth_passed.userid) {
+            localStorage.setItem('useremail', $("#username").val())
+            localStorage.setItem('userid', auth.auth_passed.userid)
             window.location.href = "userInterface.html"
         } else {
             $('#loginBtn').prop('disabled', false)
@@ -40,24 +70,3 @@ $(document).ready(function () {
 
 
 })
-
-// //Login to Account
-// $(document).ready(function () {
-
-//     //Grab user input from text fields
-//     $("#login-btn").on("click", function (event) {
-//         event.preventDefault();
-
-//         if ($("#emailLogin").val() != '') {
-//             var userEmail = $("#emailLogin").val().trim();
-//         }
-//         if ($("#passwordLogin").val() != '') {
-//             var userPassword = $("#passwordLogin").val().trim();
-//         }
-
-//         data_LogInUser(userEmail, userPassword);
-
-//         window.location.href = "http://userpage.com";
-
-//     })
-// })
