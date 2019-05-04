@@ -222,7 +222,18 @@ function createMap() {
         console.log(data.message)
         var cords = data.message[0].coordinates
         lat = cords[0];
-        lon = cords[1]
+        lon = cords[1];
+        var map;
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: {
+                    lat: lat,
+                    lng: lon
+                },
+                zoom: 8
+            });
+        }
          var mapssrc = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDiaHiIDgafsFhfwb1XQBtKETZ1zdlrP_o&callback=initMap';
         $.getScript(mapssrc, function (data, status, jqxhr) {
             console.log(data)
