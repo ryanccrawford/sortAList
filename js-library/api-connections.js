@@ -10,7 +10,8 @@ var currentUser = {
     email: null,
     password:null
 }
-
+var lat;
+var lon;
 //---------------------------ENDPOINT OBJECTS---------------------------------
 var dataEnpoints = {
     createEndpoint: function (_endpoint,_action) {  
@@ -336,7 +337,7 @@ function walmart_SearchItems(_query) {
       });
 }
 function mash_getUserWalmartStore(_userid){
-    if(!currentUser.zip){
+    if(!user.zip){
     var endPoint = dataEnpoints.users
     var url = dataEnpoints.createEndpoint(endPoint, 'get_zip')
     var data = {
@@ -348,11 +349,11 @@ function mash_getUserWalmartStore(_userid){
         data: JSON.stringify(data)
     }).then(function (response) {
         var zip = response['zip']
-        currentUser.zip = zip
-        walmart_GetStores(currentUser.zip)
+        user.zip = zip
+        walmart_GetStores(user.zip)
     });
     }else{
-        walmart_GetStores(currentUser.zip)
+        walmart_GetStores(user.zip)
     }
 }
 function walmart_GetStores(_zip) {
@@ -428,6 +429,10 @@ var shoppigItem = function(_itemname){return {
    walmart_category:''
 }
 }
+
+
+
+
 
 //Test area
 // $(document).ready(function () {

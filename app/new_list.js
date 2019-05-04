@@ -7,10 +7,10 @@ $(document).ready(function () {
     user.email = localStorage.getItem("useremail");
 
     $('#username').text(user.email);
-
-    checklist()
+    createMap();
+    checklist();
         
-    })
+})
 
 
 
@@ -203,11 +203,38 @@ function drawList(listObject) {
     console.log(listObject);
 }
 function drawListItems(itemsObjArray) {
-    
+ 
 
 
 }
 function sortList() {
+    
+
+}
+function createMap() {
+    
+    
+
+    mash_getUserWalmartStore(user.id)
+
+    $(document).on('getWalmartStores', function (data) {
+        console.log(data.message)
+        var cords = data.message[0].coordinates
+        lat = cords[0];
+        lon = cords[1]
+         var mapssrc = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDiaHiIDgafsFhfwb1XQBtKETZ1zdlrP_o&callback=initMap';
+        $.getScript(mapssrc, function (data, status, jqxhr) {
+            console.log(data)
+            console.log(status)
+            console.log(jqxhr)
+        
+
+        });
+       
+
+    })
+    
+
     
 
 }

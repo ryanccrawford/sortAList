@@ -9,6 +9,11 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <!-- Font Library -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    #map {
+      height: 100%;
+    }
+    </style>
 </head>
 
 
@@ -48,9 +53,9 @@
     </div>
   </nav>
   <div class="container">
-<div class="row" id="nolist" style="display:none;">
+<div class="row">
   <div class="section">
-  <div class="col s6">
+  <div class="col s6" id="nolist" style="display:none;">
     <div class="card blue darken-1">
       <div class="card-content white-text">
         <span class="card-title">List</span>
@@ -62,15 +67,16 @@
       </div>
     </div>
   </div>
+ 
 </div>
 </div>
-<div class="row" id="newlist" style="display:none;">
+<div class="row" >
   <div class="section">
-    <div class="col s6">
+    <div class="col s6" id="newlist" style="display:none;">
       <div class="card white darken-1">
         <div class="card-content black-text">
           <span class="card-title">Title <input type="text" id="newtitle"></span>
-          <span class="white-text">To add items click 'Add Items'<span>
+          <span class="black-text">To add items click 'Add Items'<span>
           <div id="itemaddarea"></div>
         </div>
         <div class="card-action">
@@ -79,52 +85,33 @@
         </div>
       </div>
     </div>
+     <div class="col s6" id="mapcard">
+       <div class="card blue darken-1">
+         <div class="card-content white-text" style="height:500px;">
+           <span class="card-title">Map</span>
+           <span class="white-text">Your Closest Store</span>
+           <div id="map"></div>
+         </div>
+         <script>
+           var map;
+            
+           function initMap() {
+             map = new google.maps.Map(document.getElementById('map'), {
+               center: {
+                 lat: lat,
+                 lng: lon
+               },
+               zoom: 8
+             });
+           }
+         </script>
+         <div class="card-action">
+           <button class="btn orange right changestore">Change Store</button>
+         </div>
+       </div>
+     </div>
   </div>
 </div>
-  <div class="row">
-    <div class="col s6">
-      <div style="display:none;" class="card blue-grey darken-1">
-        <div class="card-content white-text">
-          <span class="card-title">
-            <div class="row">
-              <div class="input-field col s6">
-                <input value="Grocery List Name" id="first_name2" type="text" class="validate">
-                <label class="active" for="first_name2">List Name</label>
-              </div>
-            </div>
-          </span>
-          <div class="row">
-            <form class="col s12">
-              <div class="row">
-                <div class="input-field col s12">
-                  <textarea id="textarea1" class="materialize-textarea"></textarea>
-                  <label for="textarea1">Textarea</label>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-        <div class="card-action">
-          <a href="#">Sort List</a>
-        </div>
-      
-      
-      '
-    
-    
-    
-    
-    
- 
- 
- 
- 
- 
- 
-    </div>
-    </div>
-  </div>
-
 </div>
     <script src="https://code.jquery.com/jquery-3.4.0.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
