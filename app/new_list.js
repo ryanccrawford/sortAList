@@ -177,7 +177,7 @@ function additemAddList(_itemnumber) {
             if (itemw.items && itemw.items.length > 0) {
                 var category = itemw.items[0].categoryPath;
                 var categoryNode = itemw.items[0].categoryNode;
-                $(item).attr('data-category', category);
+                $(item).attr('data-category', categoryNode);
                 console.log(item);
             } else {
                  $(item).attr('data-category', 'unknown');
