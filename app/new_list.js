@@ -221,7 +221,15 @@ function createMap() {
     
 
     mash_getUserWalmartStore(user.id)
- 
+  function initMap() {
+      map = new google.maps.Map(document.getElementById('map'), {
+          center: {
+              lat: lat,
+              lng: lon
+          },
+          zoom: 8
+      });
+  }
  
     $(document).on('getWalmartStores', function (data) {
         console.log(data.message)
@@ -230,15 +238,7 @@ function createMap() {
         lon = cords[1];
        
 
-       function initMap() {
-           map = new google.maps.Map(document.getElementById('map'), {
-               center: {
-                   lat: lat,
-                   lng: lon
-               },
-               zoom: 8
-           });
-       }
+      
          var mapssrc = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDiaHiIDgafsFhfwb1XQBtKETZ1zdlrP_o&callback=initMap';
         $.getScript(mapssrc, function (data, status, jqxhr) {
             console.log(data)
