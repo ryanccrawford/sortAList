@@ -8,6 +8,17 @@ $(document).ready(function () {
     user.email = localStorage.getItem("useremail");
 
     $('#username').text(user.email);
+function initMap() {
+    map = new google.maps.Map(document.getElementById('map'), {
+        center: {
+            lat: lat,
+            lng: lon
+        },
+        zoom: 8
+    });
+}
+
+
     createMap();
     checklist();
         
@@ -219,15 +230,7 @@ function createMap() {
     mash_getUserWalmartStore(user.id)
  var map;
 
- function initMap() {
-     map = new google.maps.Map(document.getElementById('map'), {
-         center: {
-             lat: lat,
-             lng: lon
-         },
-         zoom: 8
-     });
- }
+ 
     $(document).on('getWalmartStores', function (data) {
         console.log(data.message)
         var cords = data.message[0].coordinates
