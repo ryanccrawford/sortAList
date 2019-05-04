@@ -3,20 +3,13 @@ var lists = [];
 var user = {};
 var itemcount = 0; 
 var lat, lon;
+var map;
 $(document).ready(function () {
     user.id = localStorage.getItem("userid");
     user.email = localStorage.getItem("useremail");
 
     $('#username').text(user.email);
-function initMap() {
-    map = new google.maps.Map(document.getElementById('map'), {
-        center: {
-            lat: lat,
-            lng: lon
-        },
-        zoom: 8
-    });
-}
+
 
 
     createMap();
@@ -228,8 +221,7 @@ function createMap() {
     
 
     mash_getUserWalmartStore(user.id)
- var map;
-
+ 
  
     $(document).on('getWalmartStores', function (data) {
         console.log(data.message)
@@ -237,6 +229,16 @@ function createMap() {
         lat = cords[0];
         lon = cords[1];
        
+
+       function initMap() {
+           map = new google.maps.Map(document.getElementById('map'), {
+               center: {
+                   lat: lat,
+                   lng: lon
+               },
+               zoom: 8
+           });
+       }
          var mapssrc = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDiaHiIDgafsFhfwb1XQBtKETZ1zdlrP_o&callback=initMap';
         $.getScript(mapssrc, function (data, status, jqxhr) {
             console.log(data)
