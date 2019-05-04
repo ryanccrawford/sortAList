@@ -4,6 +4,7 @@ var user = {};
 var itemcount = 0; 
 var lat, lon;
 var map;
+
 $(document).ready(function () {
     user.id = localStorage.getItem("userid");
     user.email = localStorage.getItem("useremail");
@@ -75,7 +76,10 @@ function checklist() {
                 if (validateItems()) {
                     var listTitle = $('#newtitle').val()
                     var listitems = []
-                    var countofitems = $('#itemaddarea').childeren().length
+                    var area = $('#itemaddarea')
+                    var childeren = $(area)[0].childNodes
+                    var countofitems = childeren.length
+                    console.log(childeren)
                     for (let l = 0; l < countofitems; l++) {
                         var pushItem = $('#item_' + l.toString());
                         var name = $(pushItem).val()
@@ -86,12 +90,17 @@ function checklist() {
                         })
                     }
 
-                    data_AddList(user.id, listTitle);
+                    data_AddList(user.id, listTitle, {
+                        items: listitems
+                    });
                     $(document).on('addedList', function (data) {
-                        var listid = data.list_added
+                        var message = data.message
+                        var listid = message.data['list_added']
+                        var listitems = message.obj['items']
                         listitems.forEach(function (li) {
-
-                            data_AddItem(user.id, li.name, _categoryid, li.category, listid)
+                            var ar = li.category.split('_')
+                            var cid = ar[ar.length - 1]
+                            data_AddItem(user.id, li.name, cid, li.category, listid)
 
 
 
@@ -132,7 +141,8 @@ function additemAddList(_itemnumber) {
     var itemsdiv = $('#itemaddarea');
     
     $(item).addClass('listitem');
-    $(item).attr('id', 'item_' + _itemnumber);
+    var it = 'item_' + _itemnumber.toString();
+    $(item).attr('id', 'item_' + _itemnumber.toString());
     $(item).keyup(function (event) { 
           itemname = $(event.target).val().trim();
           if (itemname.length == 0) {
@@ -161,28 +171,26 @@ function additemAddList(_itemnumber) {
             $(edit).addClass('material-icons text-black').text("create");
             $(edit).attr('id', newId)
             $(edit).click(function (event) {
-                var parent = $(this).parent()
+                var parent = $(event.target).parent()
                 $(parent).prop('readonly', false)
-                $(edit).remove();
+                $(event.target).remove();
             })
 
             $(itemleaveing).after(edit);
         }
-        walmart_SearchItems(itemname);
+        walmart_SearchItems(itemname, { lineid: '#' + it });
         
         $(document).on('getWalmartItemSearch', function (data) {
-
-            var itemw = data.message
-            console.log(itemw.items)
+            var itemw = data.message.data
+            var idofline = data.message.arguments.lineid
             if (itemw.items && itemw.items.length > 0) {
-                var category = itemw.items[0].categoryPath;
-                var categoryNode = itemw.items[0].categoryNode;
-                $(item).attr('data-category', categoryNode);
-                console.log(item);
+                var category =  itemw.items[0].categoryPath;
+                var catNode = itemw.items[0].categoryNode;
+                $(idofline).attr('data-category', catNode);
+                $(idofline).attr('data-category-path', category)
             } else {
-                 $(item).attr('data-category', 'unknown');
+                 $(idofline).attr('data-category', 'unknown');
             }
-            
 
         })
 
@@ -253,6 +261,14 @@ function initMap() {
             lat: lon,
             lng: lat
         },
-        zoom: 8
+        zoom:15
+    });
+    var marker = new google.maps.Marker({
+        position: {
+            lat: lon,
+            lng: lat
+        },
+        map: map,
+        title: 'Your Store'
     });
 }

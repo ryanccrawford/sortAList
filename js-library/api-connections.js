@@ -119,7 +119,7 @@ function data_getUserEmail(_userid) {
     });
 }
 //---------------------------PHP API LIST FUNCTIONS---------------------------
-function data_AddList(_userid, _listname) {
+function data_AddList(_userid, _listname, _obj = {}) {
     var endPoint = dataEnpoints.lists
     var url = dataEnpoints.createEndpoint(endPoint, 'add_list')
     var data = {
@@ -131,7 +131,7 @@ function data_AddList(_userid, _listname) {
         url: url,
         data: JSON.stringify(data)
     }).then(function (response) {
-        addListEventHandel(response)
+        addListEventHandel(response, _obj)
     });
 }
 function data_GetLists(_userid) {
@@ -240,10 +240,14 @@ function getUserEventHandel(_data) {
         message: _data
     });
 }
-function addItemEventHandel(_data) {
+function addItemEventHandel(_data, obj = {}) {
     $.event.trigger({
         type: "addedItem",
-        message: _data
+        message: {
+            data: _data,
+            arguments: obj,
+            event: $.event
+        }
     });
 }
 function getItemsFromListEventHandel(_data) {
@@ -264,10 +268,14 @@ function removeListEventHandel(_data) {
         message: _data
     });
 }
-function addListEventHandel(_data) {
+function addListEventHandel(_data, obj = {}) {
     $.event.trigger({
         type: "addedList",
-        message: _data
+        message: {
+            data: _data,
+            obj: obj,
+            event: $(this)
+        }
     });
 }
 function getListsEventHandel(_data) {
@@ -289,10 +297,14 @@ function getItemEventHandel(_data) {
         message: _data
 });
 }
-function getsSearchItemEventHandel(_data) {
+function getsSearchItemEventHandel(_data, obj = {}) {
     $.event.trigger({
         type: "getWalmartItemSearch",
-        message: _data
+         message: {
+             data: _data,
+             arguments: obj,
+             event: $.event
+         }
     });
 }
 function getStoresEventHandeler(_data){
@@ -326,14 +338,14 @@ function walmart_GetItems(_item_ids) {
             getItemEventHandel(response)
      });
 }
-function walmart_SearchItems(_query) {
+function walmart_SearchItems(_query, refId = {}) {
       var endPoint = walmartEnpoints.search(_query)
       var url = walmartEnpoints.createEndpoint(endPoint)
       $.ajax({
           type: "GET",
           url: url
       }).then(function (response) {
-          getsSearchItemEventHandel(response)
+          getsSearchItemEventHandel(response, refId)
       });
 }
 function mash_getUserWalmartStore(_userid){
