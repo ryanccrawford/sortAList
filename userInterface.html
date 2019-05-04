@@ -92,19 +92,7 @@
            <span class="white-text">Your Closest Store</span>
            <div id="map"></div>
          </div>
-         <script>
-           var map;
-            
-           function initMap() {
-             map = new google.maps.Map(document.getElementById('map'), {
-               center: {
-                 lat: lat,
-                 lng: lon
-               },
-               zoom: 8
-             });
-           }
-         </script>
+         
          <div class="card-action">
            <button class="btn orange right changestore">Change Store</button>
          </div>
@@ -118,6 +106,19 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="./js-materialize/init.js"></script>
     <script src="./js-library/api-connections.js"></script>
+    <script>
+      var map;
+
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {
+            lat: lat,
+            lng: lon
+          },
+          zoom: 8
+        });
+      }
+    </script>
     <script src="./app/new_list.js"></script>
 </body>
 
