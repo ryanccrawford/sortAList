@@ -15,6 +15,13 @@ $(document).ready(function () {
             localStorage.setItem("user", JSON.stringify(user))
     
             $('.modal').modal('open');
+        } else if (answer.error) {
+            var massage = answer.error
+            var p = $('<p>');
+            p.text(massage);
+            $('#errors').append(p)
+            $('#errors').show();
+            $('#loginBtn').prop('disabled', false);
         }
 
     })
@@ -29,11 +36,7 @@ $(document).ready(function () {
             data_AddUser(user.email, user.password, user.zip);
             
         } else {
-            errors.forEach(function (error) {
-                var p = $('<p>');
-                p.text(error);
-                $('#errors').append(p);
-            })
+        
              $("#signupBtn").prop("disabled", false);
         }
        
@@ -66,7 +69,14 @@ function processData() {
     }
 
     if (errors.length > 0) {
-        //TODO: PROCESS ERRORS
+       
+        errors.forEach(function (error) {
+            var p = $('<p>');
+            p.text(error);
+            $('#errors').append(p);
+        })
+        $('#errors').show();
+        $('#loginBtn').prop('disabled', false);
         return false;
     } else {
         user.email = $("#email").val().trim();
