@@ -2,7 +2,8 @@
 const walmartApiKey = 'yetbamnvuptfsnzehnsz99nr'
 const googleApiKey = 'AIzaSyDiaHiIDgafsFhfwb1XQBtKETZ1zdlrP_o'
 const shoppingListApiKey = 'q98ejf-fqwefj-8wefqw8w'
-
+const dataurl = "https://https://fe41a14.online-server.cloud"
+const dataurl = "http://localhost/php-api"
 var userslists = [];
 
 var currentUser = {
@@ -15,9 +16,9 @@ var lon;
 //---------------------------ENDPOINT OBJECTS---------------------------------
 var dataEnpoints = {
     createEndpoint: function (_endpoint,_action) {  
-        return this.datahost + '/' + _endpoint + 'action=' + _action + '&' +'apiKey=' + this.apiKey
+        return this.datahost + '/' + _endpoint + 'action=' + _action + '&' + 'apiKey=' + this.apiKey + '&XDEBUG_SESSION_START=netbeans-xdebug'
     },
-    datahost: 'https://fe41a14.online-server.cloud',
+    datahost: dataurl,
     'apiKey': shoppingListApiKey,
     users: 'api.php?api=users&',
     lists: 'api.php?api=lists&',
@@ -48,7 +49,7 @@ var walmartEnpoints = {
     locator: function(_zip){ 
         return ['stores', ('?' + 'zip=' + _zip + '&')]
     },
-    trending: 'trends'
+    trending: 'trends?'
 }
 var walmart_lookUpObj = {
     createlookupString: function (_obj) {
@@ -122,10 +123,14 @@ function data_getUserEmail(_userid) {
 function data_AddList(_userid, _listname, _obj = {}) {
     var endPoint = dataEnpoints.lists
     var url = dataEnpoints.createEndpoint(endPoint, 'add_list')
+   
     var data = {
         "userid": _userid,
         "listname": _listname,
+        "listitems": _obj.items ? _obj.items: false
     }
+    console.log("data being sent to AddList:")
+    console.log(data)
     $.ajax({
         type: "POST",
         url: url,
@@ -256,6 +261,12 @@ function getItemsFromListEventHandel(_data) {
         message: _data
     });
 }
+function getTrendingEventHandel(_data) {
+    $.event.trigger({
+        type: "getTrending",
+        message: _data
+    });
+}
 function removeItemFromListEventHandel(_data) {
     $.event.trigger({
         type: "removedItem",
@@ -337,6 +348,16 @@ function walmart_GetItems(_item_ids) {
      }).then(function (response) {
             getItemEventHandel(response)
      });
+}
+function walmart_GetTrending() {
+    var endPoint = walmartEnpoints.trending
+    var url = walmartEnpoints.createEndpoint(endPoint)
+    $.ajax({
+        type: "GET",
+        url: url
+    }).then(function (response) {
+        getTrendingEventHandel(response)
+    });
 }
 function walmart_SearchItems(_query, refId = {}) {
       var endPoint = walmartEnpoints.search(_query)
