@@ -62,7 +62,7 @@ function processData() {
         errors.push("Password can't be empty.");
     }
     if (zip == '') {
-        errors.push("Password can't be empty.");
+        errors.push("Zip can't be empty.");
     }
 
     if (errors.length > 0) {
