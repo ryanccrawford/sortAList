@@ -244,23 +244,7 @@ function additemAddList(_itemnumber) {
     $(item).addClass('listitem');
     var it = 'item_' + _itemnumber.toString();
     $(item).attr('id', 'item_' + _itemnumber.toString());
-    $(item).keyup(function (event) { 
-          itemname = $(event.target).val().trim();
-          if (itemname.length == 0) {
-              if (!$('.additem').hasClass('disabled')) {
-                 $('.additem').addClass('disabled')
-            }
-              return;
-          }
-        $('.additem').removeClass('disabled')
-        if (itemname.length > 3) {
-            $('#trendproducts').empty()
-            if ($('#trendproducts').hasClass('carousel')) {
-                $('#trendproducts').removeClass('carousel')
-            }
-            createSearchedProducts(itemname);
-        }
-    })
+    
     $(item).focusout(function (event) {
         var itemleaveing = $(event.target);
         var theitem, walmat_category, itemname, walmart_itemid;
