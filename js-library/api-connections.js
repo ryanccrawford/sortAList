@@ -345,6 +345,7 @@ function walmart_GetItems(_item_ids) {
     var handel = function (response) {
         getItemEventHandel(response)
     }
+    var data = {};
     makeCall("GET",url,data,handel)
 }
 function walmart_GetTrending() {
@@ -360,7 +361,7 @@ function walmart_GetTrending() {
 function walmart_SearchItems(_query, refId = {}) {
       var endPoint = walmartEnpoints.search(_query)
       var url = walmartEnpoints.createEndpoint(endPoint)
-     
+     var data = {}
 var handel = function (response) {
     getsSearchItemEventHandel(response, refId)
 }
