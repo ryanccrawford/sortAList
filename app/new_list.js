@@ -8,7 +8,12 @@ var insideCarousel = false;
 var GroupedByList = [];
 $(document).ready(function () {
 
-   
+   $('.exit').click(
+       function(){
+           localStorage.setItem('userid', null)
+            window.location.href = "index.html"
+       }
+   )
     
     user.id = localStorage.getItem("userid");
     user.email = localStorage.getItem("useremail");

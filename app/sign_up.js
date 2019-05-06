@@ -16,14 +16,22 @@ $(document).ready(function () {
     
             $('.modal').modal('open');
         } else if (answer.error) {
-            var massage = answer.error
+            $("#signupBtn").prop("disabled", false);
+            var message = answer.error[0]
+            console.log(message)
             var p = $('<p>');
-            p.text(massage);
+            p.text(message[0]);
             $('#errors').append(p)
             $('#errors').show();
             $('#loginBtn').prop('disabled', false);
+            $("#signupBtn").prop("disabled", false);
+            
+        }else if (answer[0]){
+            
+            $('#errors').append(answer[0])
+            $('#errors').show();
         }
-
+        $("#signupBtn").prop("disabled", false);
     })
     //Grab user input
     $("#signupBtn").on("click", function (event) {
