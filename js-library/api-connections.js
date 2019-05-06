@@ -2,8 +2,8 @@
 const walmartApiKey = 'yetbamnvuptfsnzehnsz99nr'
 const googleApiKey = 'AIzaSyDiaHiIDgafsFhfwb1XQBtKETZ1zdlrP_o'
 const shoppingListApiKey = 'q98ejf-fqwefj-8wefqw8w'
-const dataurl = 'https://fe41a14.online-server.cloud'
-//const dataurl = "http://localhost/php-api"
+//const dataurl = 'https://fe41a14.online-server.cloud'
+const dataurl = "http://localhost"
 var userslists = [];
 
 var currentUser = {
@@ -82,13 +82,19 @@ function data_AddUser(_email,_password,_zip) {
         "password": _password,
         "zip": _zip
     }
-    $.ajax({
-        type: "POST",
-        url: url,
-        data: JSON.stringify(data)
-    }).then(function (response) {
+    var handel = function (response) {
         addedUserEventHandel(response)
-    });
+    }
+    makeCall("POST",url,data,handel)
+}
+function makeCall(_type,_url,_data,_handelfunction){
+$.ajax({
+    type: _type,
+    contentType: "application/x-www-form-urlencoded",
+    headers: "Access-Control-Allow-Origin:*",
+    url: _url,
+    data: JSON.stringify(_data)
+}).then(_handelfunction)
 }
 function data_LogInUser(_email, _password) {
     var endPoint = dataEnpoints.users
@@ -97,13 +103,10 @@ function data_LogInUser(_email, _password) {
         "email": _email,
         "password": _password
     }
-    $.ajax({
-        type: "POST",
-        url: url,
-        data: JSON.stringify(data)
-    }).then(function (response) {
+    var handel = function (response) {
         isLoggedInEventHandel(response)
-    });
+    }
+    makeCall("POST",url,data,handel)
 }
 function data_getUserEmail(_userid) {
     var endPoint = dataEnpoints.users
@@ -111,13 +114,10 @@ function data_getUserEmail(_userid) {
     var data = {
         "userid": _userid
     }
-    $.ajax({
-        type: "POST",
-        url: url,
-        data: JSON.stringify(data)
-    }).then(function (response) {
+    var handel = function (response) {
         getUserEventHandel(response);
-    });
+    }
+    makeCall("POST",url,data,handel)
 }
 //---------------------------PHP API LIST FUNCTIONS---------------------------
 function data_AddList(_userid, _listname, _obj = {}) {
@@ -342,12 +342,10 @@ function walmart_GetItems(_item_ids) {
     var item_ids = walmart_lookUpObj.createlookupString(_item_ids)
     var endPoint = walmartEnpoints.itemLookup(item_ids)
     var url = walmartEnpoints.createEndpoint(endPoint)
-     $.ajax({
-         type: "GET",
-         url: url
-     }).then(function (response) {
-            getItemEventHandel(response)
-     });
+    var handel = function (response) {
+        getItemEventHandel(response)
+    }
+    makeCall("GET",url,data,handel)
 }
 function walmart_GetTrending() {
     var endPoint = walmartEnpoints.trending
@@ -362,12 +360,11 @@ function walmart_GetTrending() {
 function walmart_SearchItems(_query, refId = {}) {
       var endPoint = walmartEnpoints.search(_query)
       var url = walmartEnpoints.createEndpoint(endPoint)
-      $.ajax({
-          type: "GET",
-          url: url
-      }).then(function (response) {
-          getsSearchItemEventHandel(response, refId)
-      });
+     
+var handel = function (response) {
+    getsSearchItemEventHandel(response, refId)
+}
+      makeCall("GET",url,data,handel)
 }
 function mash_getUserWalmartStore(_userid){
     if(!user.zip){
@@ -415,27 +412,6 @@ function compareItems(itema, itemb) {
     }
     return 0;
 }
-
-
-
-//---------------------------------------GOOGLE MAP APIS------------------------------------------
-//TODO: NOT DONE
-var mapsApiKey = ''
-//TODO: NOT DONE
-var mapsEndpoints = {
-    
-}
-//GOOGLE MAPS API REQUEST OBJECT
-var mapsApiRequest = function (_startLocation, _storeAddress, _method = 'DRIVING') {
-    return {
-        origin: _startLocation,
-        destination: _storeAddress,
-            provideRouteAlternatives: false,
-            travelMode: _method,
-        unitSystem: google.maps.UnitSystem.IMPERIAL
-    }
-   
-}
 var shoppingLists = function (){ return{
     lists : [],
     addList:function(_name){
@@ -462,89 +438,3 @@ var shoppigItem = function(_itemname){return {
    walmart_category:''
 }
 }
-
-
-
-
-
-//Test area
-// $(document).ready(function () {
-    
-//     //EVENT HANDLERS 
-//     $(document).on('getWalmartItem', function (response) {
-//         console.log(response.message)
-//     })
-//     $(document).on('getWalmartItemSearch', function (response) {
-//         console.log(response.message)
-//     })
-//     $(document).on('addedUser', function (response) {
-//         console.log(response.message.userid)
-//         currentUser.userid = response.message.userid
-//           data_LogInUser('llbccxxxxc@live.com', '123456789')
-           
-//     })
-//     $(document).on('getlists', function (response) {
-        
-//         var tempList = response.message
-//         console.log(tempList)
-
-       
-//     })
-//     $(document).on('isLoggedIn', function (response) {
-//         var result = response.message
-//         console.log("Is logging in result " + response.message.userid)
-//            currentUser.userid = response.message.userid
-//               console.log("CurrentUser Var = " + currentUser.userid)
-//            currentUser.email = result.email
-//              console.log("currentUser.email = " + currentUser.email)
-//            localStorage.setItem('userid', response.message.userid)
-//            localStorage.setItem('email',  currentUser.email)
-          
-
-//            data_GetAllListsForUser(response.message.userid)
-//     })
-            
-//     $(document).on('getAllListsForUser', function (response) {
-//         console.log(response.message)
-      
-//     })
-
-//     $(document).on('addedList', function (response) {
-//         console.log(response.message)
-//     })
-//     //FUNCTION TEST AREA
- 
-//     currentUser.email = localStorage.getItem('email')
-//     currentUser.userid = localStorage.getItem('userid')
-//     console.log("ini currentUser.email = " + currentUser.email)
-//     console.log("ini currentUser.userid = " + currentUser.userid)
-//     if(currentUser.userid){
-//         data_LogInUser('ryanccrawford2@live.com', '12345678')
-//     }else{
-//         data_AddUser('llbccxxxxc@live.com', '123456789')
-//     }
-//     var usersLists = new shoppingLists()
-//     var si = new shoppigItem('eggs')
-//     var si2 = new shoppigItem('cheese')
-//     var si3 = new shoppigItem('hamburger meat')
-//     var si4 = new shoppigItem('orange juice')
-//     var list = new shoppingList('birthday party')
-//     list.items.push(si)
-//     list.items.push(si2)
-//     list.items.push(si3)
-//     list.items.push(si4)
-//     usersLists.lists.push(list)
-//     console.log(usersLists)
-
-    
-    
-    
-   
-         
-    
-    
-    
-    
-   
-    
-// })

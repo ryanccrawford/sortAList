@@ -20,7 +20,7 @@ $(document).ready(function () {
             var message = answer.error[0]
             console.log(message)
             var p = $('<p>');
-            p.text(message[0]);
+            p.text(message.message);
             $('#errors').append(p)
             $('#errors').show();
             $('#loginBtn').prop('disabled', false);

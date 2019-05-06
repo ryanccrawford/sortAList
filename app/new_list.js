@@ -351,11 +351,9 @@ function drawListItems(itemsObjarray) {
   
     $(ol).append(li)
 var idname = 'sortable_' + itemsObjarray.list_id.toString()
-      $(ol).addClass('collection').attr('id', idname).load(function () {
-           $("#" + idname).sortable();
-           $("#" + idname).disableSelection();
-       });
-}
+      $(ol).addClass('collection').attr('id', idname).sortable().disableSelection()
+      
+    }
     return ol
 
 }
