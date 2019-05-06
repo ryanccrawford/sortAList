@@ -2,7 +2,7 @@
 const walmartApiKey = 'yetbamnvuptfsnzehnsz99nr'
 const googleApiKey = 'AIzaSyDiaHiIDgafsFhfwb1XQBtKETZ1zdlrP_o'
 const shoppingListApiKey = 'q98ejf-fqwefj-8wefqw8w'
-const dataurl = "https://fe41a14.online-server.cloud"
+const dataurl = 'https://fe41a14.online-server.cloud'
 //const dataurl = "http://localhost/php-api"
 var userslists = [];
 
