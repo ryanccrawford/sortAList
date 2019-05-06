@@ -5,6 +5,7 @@ var itemcount = 0;
 var lat, lon;
 var map;
 var insideCarousel = false;
+var GroupedByList = [];
 $(document).ready(function () {
 
     
@@ -64,11 +65,10 @@ $(document).ready(function () {
             });
             $(document).on('addedList', function (data) {
                 var returnedData = data.message
-                var robj = returnedData.obj
-                var revent = returnedData.event
-                var rdata = returnedData.data
                 console.log(returnedData)
-                
+                $('.trendingproduct').hide();
+                $('#listdisplay').empty()
+                checklist()
             })
 
         }
@@ -96,42 +96,7 @@ function createTredndingProducts() {
     $(document).on('getTrending', function (data) {
         var products = data.message.items;
         if (products) {
-            var carousel = $('#trendproducts')
-            console.log(products)
-            var plen = products.length
-            for (let i = 0; i < plen; i++) {
-                var product = products[i]
-                console.log(product)
-                var itemId = product.itemId
-                var title = product.name
-                var brand = product.brandName
-                var image = product.imageEntities[0].thumbnailImage
-                var price = product.salePrice
-                var catagoryNode = product.categoryNode
-                var categoryPath = product.categoryPath.split('/')
-                var category = categoryPath[categoryPath.length - 1]
-
-                var ci = $('<a>')
-                $(ci).addClass('carousel-item').attr('href', "#")
-                $(ci).data('category', catagoryNode)
-                $(ci).data('itemid', itemId)
-                var div = $('<div>')
-                $(div).addClass('col')
-                var h = $('<h5>')
-                $(h).addClass('header').text(title)
-                var img = $('<img>')
-                $(img).attr('src', image)
-                var p = $('<p>')
-                $(p).html(brand + " <br>price $" + price)
-                var p2 = $('<p>')
-                $(p2).text(category)
-                $(div).append(h).append(img).append(p).append(p2)
-                $(ci).append(div)
-                $(carousel).append(ci)
-            }
-             $(carousel).addClass('carousel')
-             $('.carousel').carousel();
-
+           makeCarousel(products)
         }
 
 
@@ -150,62 +115,90 @@ function createSearchedProducts(_query) {
     walmart_SearchItems(_query);
     $(document).on('getWalmartItemSearch', function (data) {
         var products = data.message.data.items;
+      
         if (products) {
-            var carousel = $('#trendproducts')
-
-            console.log(products)
-            var plen = products.length
-            for (let i = 0; i < plen; i++) {
-                var product = products[i]
-                console.log(product)
-                var itemId =  product.itemId
-                var title = product.name
-                var brand =  product.brandName
-                var image = product.thumbnailImage
-                var price = product.salePrice
-                var catagoryNode = product.categoryNode
-                var categoryPath =  product.categoryPath.split('/')
-                var category = categoryPath[categoryPath.length - 1]
-                
-                var ci = $('<a>')
-                $(ci).addClass('carousel-item').attr('href',"#")
-                $(ci).data('category', catagoryNode)
-                $(ci).data('itemid', itemId)
-                var div = $('<div>')
-                $(div).addClass('col')
-                var h = $('<h5>')
-                $(h).addClass('header').text(title)
-                var img = $('<img>')
-                $(img).attr('src', image)
-                var p = $('<p>')
-                $(p).html(brand + " <br>price $" + price)
-                var p2 = $('<p>')
-                $(p2).text(category)
-                $(div).append(h).append(img).append(p).append(p2)
-                $(ci).append(div)
-                $(carousel).append(ci)
-            }
-
-            $(carousel).addClass('carousel')
-            $('#trendproducts').carousel();
-            }
+           makeCarousel(products)
+        }
 
         insideCarousel = false;
     })
+}
+function makeCarousel(_products) {
+      var carousel = $('#trendproducts')
+      var plen = _products.length
+      for (let i = 0; i < plen; i++) {
+          var product = _products[i]
+          console.log(product)
+          var itemId = product.itemId
+          var title = product.name
+          var brand = product.brandName
+          var image = product.thumbnailImage
+          var price = product.salePrice
+          var catagoryNode = product.categoryNode
+          var categoryPath = product.categoryPath.split('/')
+          var category = categoryPath[categoryPath.length - 1]
 
-
-
+          var ci = $('<a>')
+          $(ci).addClass('carousel-item').attr('href', "#")
+          $(ci).data('categoryid', catagoryNode)
+          $(ci).data('itemid', itemId)
+          $(ci).data('price', price)
+          $(ci).data('category', categoryPath)
+          $(ci).data('name', title)
+          var div = $('<div>')
+          $(div).addClass('col')
+          var h = $('<h5>')
+          $(h).addClass('header').text(title)
+          var img = $('<img>')
+          $(img).attr('src', image)
+          var p = $('<p>')
+          $(p).html("price $" + price)
+          var p2 = $('<p>')
+          $(p2).text(category)
+          $(div).append(h).append(img).append(p).append(p2)
+          $(ci).append(div)
+          $(carousel).append(ci)
+      }
+      $(carousel).addClass('carousel')
+      $('.carousel').carousel();
 
 }
 function checklist() {
     data_GetAllListsForUser(user.id);
     $(document).on('getAllListsForUser', function (data) {
         var obj = data.message.lists;
+        
         if (obj) {
-            obj.forEach(function (list) {
-                lists.push(list);
-            })
-            drawLists(lists)
+            
+            var distinctListIds = [...new Set(obj.map(x=>x.list_id))]
+            var countofList = distinctListIds.length
+            for (let i = 0; i < countofList; i++) {
+                var items = []
+                for (var item of obj) {
+                    if (item.list_id == distinctListIds[i]) {
+                         items.push(item)
+                    }
+                }
+                   GroupedByList.push({
+                       list_id: i,
+                       items: items
+                   })
+            }
+             console.log(GroupedByList)
+                
+            
+            // created_on: "2019-05-05"
+            // item_id: "10"
+            // list_id: "8"
+            // name: "soup"
+            // upc: null
+            // user_id: "35"
+            // walmart_category: "Soups"
+            // walmart_category_id: "1001359"
+            // walmart_id: null
+            // walmart_price: null
+
+            drawLists(GroupedByList)
         } else {
             startWithNoList()
 
@@ -319,17 +312,60 @@ function showLastList() {
 function showList(listid) {
 }
 function drawLists(listsObjArray) {
+    $('#listdisplay').empty()
+    var display = $('#listdisplay')
+    console.log(listsObjArray)
     listsObjArray.forEach(function (liobj) {
-        drawList(liobj);
+        var div = $('<div>')
+        var drawnList = drawList(liobj);
+        $(div).addClass('card-panel col-2').addClass('shadow').append(drawnList)
+        $(display).append(div)
     })
+     $('#listdisplay').show()
+
 }
 function drawList(listObject) {
     console.log(listObject);
+    var button = $('<button>')
+    $(button).addClass('btn') 
+    $(button).text('Sort List')
+    var l = drawListItems(listObject.items)
+    
+    $(l).append(button)
+    return l
 }
-function drawListItems(itemsObjArray) {
+function drawListItems(itemsObjarray) {
  
+    var ol = $('<ol>')
+  for (var itemObj of itemsObjarray) {
+    var li = $('<li>')
+    $(li).data('categoryid', itemObj.walmart_category_id)
+    $(li).data('category', itemObj.walmart_category)
+    var ch = makeCheckBox(itemObj.name, ('gotit_' + itemObj.item_id.toString()));
+    $(li).addClass('collection-item').append(ch)
+  
+    $(ol).append(li)
 
+    $(ol).addClass('collection')
+}
+    return ol
 
+}
+function makeCheckBox(_label, _id = '', _checked = false) {
+  
+    var label = $('<label>')
+    var input = $('<input>')
+    var span = $('<span>')
+    $(input).attr('type', 'checkbox').addClass('active')
+    if (_id) {
+        $(input).attr('id', _id)
+    }
+    if (_checked) {
+         $(input).prop('checked', true)
+    }
+    $(span).text(_label)
+    $(label).append(input).append(span)
+    return label
 }
 function sortList() {
     
@@ -382,4 +418,27 @@ function initMap() {
         map: map,
         title: 'Your Store'
     });
+}
+
+function getAuthForKroger() {
+    var config = {
+        clientId: "ryanccrawford@live.com",
+        oauth2BaseUrl: "https://api.kroger.com/v1/connect/oauth2",
+        redirectUrl: "http://localhost/php-api/signin.htm",
+        apiBaseUrl: "https://api.kroger.com"
+    
+    }
+    var defualt = {
+        apiBaseUrl: config.apiBaseUrl,
+        oauth2BaseUrl: config.oauth2BaseUrl,
+        clientId: config.clientId,
+        redirectUrl: config.redirectUrl
+    }
+    var scope = encodeURIComponent('product.basic')
+    var url = config.oauth2BaseUrl + '/authorize?'
+        + 'client_id=' + encodeURIComponent(config.clientId)
+        + '&redirect_uri=' + encodeURIComponent(config.redirectUrl)
+        + '&response_type=code'
+        + '&scope=' + scope;
+    return url;
 }
