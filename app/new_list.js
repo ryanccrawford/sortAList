@@ -8,7 +8,7 @@ var insideCarousel = false;
 var GroupedByList = [];
 $(document).ready(function () {
 
-    
+   
     
     user.id = localStorage.getItem("userid");
     user.email = localStorage.getItem("useremail");
@@ -345,8 +345,11 @@ function drawListItems(itemsObjarray) {
     $(li).addClass('collection-item').append(ch)
   
     $(ol).append(li)
-
-    $(ol).addClass('collection')
+var idname = 'sortable_' + itemsObjarray.list_id.toString()
+      $(ol).addClass('collection').attr('id', idname).load(function () {
+           $("#" + idname).sortable();
+           $("#" + idname).disableSelection();
+       });
 }
     return ol
 
