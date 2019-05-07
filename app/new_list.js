@@ -315,17 +315,24 @@ function drawLists(listsObjArray) {
 }
 function drawList(listObject) {
     console.log(listObject);
+    var addTo = $('<button>')
+    $(addTo).addClass('btn add-to')
+    $(addTo).text('+ Add').click(function (event) { 
+
+    })
     var button = $('<button>')
     $(button).addClass('btn') 
-    $(button).text('Sort List')
+    $(button).text('Sort List').click(function (event) {
+        sortList(event)
+    })
     var l = drawListItems(listObject.items)
     
-    $(l).append(button)
+    $(l).append(addTo).append(button)
     return l
 }
 function drawListItems(itemsObjarray) {
  
-    var ol = $('<ol>')
+    var ul = $('<ul>')
   for (var itemObj of itemsObjarray) {
     var li = $('<li>')
     $(li).data('categoryid', itemObj.walmart_category_id)
@@ -333,12 +340,12 @@ function drawListItems(itemsObjarray) {
     var ch = makeCheckBox(itemObj.name, ('gotit_' + itemObj.item_id.toString()));
     $(li).addClass('collection-item').append(ch)
   
-    $(ol).append(li)
+    $(ul).append(li)
 var idname = 'sortable_' + itemsObjarray.list_id
-      $(ol).addClass('collection').attr('id', idname).sortable().disableSelection()
+      $(ul).addClass('collection').attr('id', idname).sortable().disableSelection()
       
     }
-    return ol
+    return ul
 
 }
 function makeCheckBox(_label, _id = '', _checked = false) {
@@ -357,8 +364,8 @@ function makeCheckBox(_label, _id = '', _checked = false) {
     $(label).append(input).append(span)
     return label
 }
-function sortList() {
-    
+function sortList(event) {
+    var list = $(event.target).find('ul')
 
 }
 function createMap() {
