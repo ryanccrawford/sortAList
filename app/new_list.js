@@ -318,10 +318,15 @@ function drawLists(listsObjArray) {
     var display = $('#listdisplay')
     console.log(listsObjArray)
     listsObjArray.forEach(function (liobj) {
-        var div = $('<div>')
+        var card = $('<div>')
+        var content = $('<div>')
+        $(content).addClass('card-content')
+
         var drawnList = drawList(liobj);
-        $(div).addClass('card-panel col-2').addClass('shadow').append(drawnList)
-        $(display).append(div)
+        $(card).addClass('card col-2').addClass('shadow')
+        $(content).append(drawnList)
+        $(card).append(content)
+        $(display).append(card)
     })
      $('#listdisplay').show()
 
@@ -341,8 +346,8 @@ function buildModal(_caller, _modal, _bodytext, _buildAddListArea, _done) {
 
 function drawList(listObject) {
     console.log(listObject);
-    var addTo = $('<button>')
-    $(addTo).addClass('btn').data('type','edit')
+    var addTo = $('<a>')
+    $(addTo).addClass('waves-effect waves-light btn-small').data('type', 'edit')
     $(addTo).text('+ Add').click(function (event) {
         var caller = event.target
         var modal = $('#addeditlistmodal')
@@ -353,14 +358,15 @@ function drawList(listObject) {
          buildModal(caller, modal, bodytext, buildAddListArea, done)
        
     })
-    var button = $('<button>')
-    $(button).addClass('btn') 
+    var button = $('<a>')
+    $(button).addClass('waves-effect waves-light btn-small')
     $(button).text('Sort List').click(function (event) {
         sortList(event)
     })
     var l = drawListItems(listObject.items)
-    
-    $(l).append(addTo).append(button)
+    var cardfooter = $('<div>')
+    $(cardfooter).addClass('card-action').append(addTo).append(button)
+    $(l).append(cardfooter)
     return l
 }
 function drawListItems(itemsObjarray) {
@@ -398,13 +404,33 @@ function makeCheckBox(_label, _id = '', _checked = false) {
     return label
 }
 function sortList(event) {
-    var list = $(event.target).closest('ul')
-    $(list, 'li').sort(sort_li).appendTo(list)
-    
-    function sort_li(a, b) {
-        return ($(b).attr('data-categoryid')) < ($(a).attr('data-categoryid')) ? 1 : -1;
-    }
+    var list = $(event.target).closest('ul')[0]
+    var listitems = $(list).children('li')
+    var _sortList = Array.prototype.sort.bind($(listitems));
+    var _ascending = true
+    doSort(_ascending, _sortList)
+    function doSort(ascending, sortList) {
 
+        sortList(sn);
+       var sn = function(a, b) {
+
+            var aText = $(a).attr('data-category')
+            var bText = $(b).attr('data-category')
+
+            if (aText < bText) {
+                return ascending ? -1 : 1;
+            }
+
+            if (aText > bText) {
+                return ascending ? 1 : -1;
+            }
+
+            return 0;
+        }
+        $(list).append(sortList);
+
+    };
+    
 }
 function createMap() {
     
