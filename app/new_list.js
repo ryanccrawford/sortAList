@@ -314,10 +314,11 @@ function showLastList() {
 function showList(listid) {
 }
 function drawLists(listsObjArray) {
-    $('#listdisplay').empty()
     var display = $('#listdisplay')
-    console.log(listsObjArray)
-    listsObjArray.forEach(function (liobj) {
+    $(display).hide()
+    $(display).empty()
+
+    for(var liobj in listsObjArray){
         var card = $('<div>')
         var content = $('<div>')
         $(content).addClass('card-content')
@@ -327,17 +328,81 @@ function drawLists(listsObjArray) {
         $(content).append(drawnList)
         $(card).append(content)
         $(display).append(card)
-    })
+    }
      $('#listdisplay').show()
 
 }
-function buildAdd(_caller) {
+function itemAdd(_itemNum){
+
+  
+    var item = $('<input>');
+    var itemsdiv = $('#itemaddarea');
     
+    $(item).addClass('listitem');
+    var it = 'item_' + _itemnumber.toString();
+    $(item).attr('id', 'item_' + _itemnumber.toString());
+    
+    $(item).focusout(function (event) {
+        var itemleaveing = $(event.target);
+        var theitem, walmat_category, itemname, walmart_itemid;
+        itemname = $(event.target).val().trim();
+        if (itemname.length < 3) {
+             
+            return;
+        }
+         $('.additem').removeClass('disabled')
+        //$(itemleaveing).prop('readonly', true);
+        //< i class = "material-icons" > create < /i>
+        var id = $(itemleaveing).attr('id')
+        var newId = "edit_" + id
+        if (!$('#'+newId)) {
+            var edit = $('<i>')
+            $(edit).addClass('material-icons').text("create");
+            $(edit).attr('id', newId)
+            $(edit).click(function (event) {
+                var parent = $(event.target).parent()
+                $(parent).prop('readonly', false)
+                $(event.target).remove();
+            })
 
+            $(itemleaveing).append(edit);
+        }
+        walmart_SearchItems(itemname, { lineid: '#' + (it.toString()) });
+        
+        $(document).on('getWalmartItemSearch', function (data) {
+            var itemw = data.message.data
+            var idofline = data.message.arguments.lineid
+            if (itemw.items && itemw.items.length > 0) {
+                var categorys = itemw.items[0].categoryPath;
+                var category = categorys.split('/')
+                var lastCategory = category[category.length - 1]
+                var catNodes = itemw.items[0].categoryNode;
+                var catNode = catNodes.split('_')
+                var catNodeId = catNode[catNode.length-1]
+                $(idofline).attr('data-category', catNodeId);
+                $(idofline).attr('data-categorypath', lastCategory)
+            } else {
+                 $(idofline).attr('data-category', 'unknown');
+            }
+
+
+        })
+
+
+
+    })
+    $(itemsdiv).append(item);
 }
-function buildModal(_caller, _modal, _bodytext, _buildAddListArea, _done) {
-
-
+function buildAddItem(_appendArea) {
+    var g = $(_appendArea)
+    $(g).empty()
+    var h = $('#newitems').clone( false, false)
+    //ADD CLICK HANDELER and fix itemAdd(_itemNum)
+    $(h).appendTo(g)
+    return h
+}
+function buildModal(_caller, _modal, _bodytext, _content, _done) {
+    $(_bodytext).text('Add new Items. Then Click Done')
 
      $(_modal).modal('open');
  }
@@ -354,8 +419,8 @@ function drawList(listObject) {
         var bodytext = $('#addeditmodalbody')
         var area = $('#addmodalarea')
         var done = $('#addeditmodaldone')
-        var buildAddListArea = buildAdd(caller)
-         buildModal(caller, modal, bodytext, buildAddListArea, done)
+        var content = buildAdd(area)
+         buildModal(caller, modal, bodytext, content, done)
        
     })
     var button = $('<a>')

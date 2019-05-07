@@ -82,10 +82,15 @@ function data_AddUser(_email,_password,_zip) {
         "password": _password,
         "zip": _zip
     }
-    var handel = function (response) {
+    $.ajax({
+        type: "POST",
+        url: url,
+        contentType: "application/x-www-form-urlencoded",
+        headers: "Access-Control-Allow-Origin:*",
+        data: JSON.stringify(data)
+    }).then(function (response) {
         addedUserEventHandel(response)
-    }
-    makeCall("POST",url,data,handel)
+    });
 }
 function makeCall(_type,_url,_data,_handelfunction){
 $.ajax({
@@ -103,10 +108,15 @@ function data_LogInUser(_email, _password) {
         "email": _email,
         "password": _password
     }
-    var handel = function (response) {
+    $.ajax({
+        type: "POST",
+        url: url,
+        contentType: "application/x-www-form-urlencoded",
+        headers: "Access-Control-Allow-Origin:*",
+        data: JSON.stringify(data)
+    }).then(function (response) {
         isLoggedInEventHandel(response)
-    }
-    makeCall("POST",url,data,handel)
+    });
 }
 function data_getUserEmail(_userid) {
     var endPoint = dataEnpoints.users
@@ -114,10 +124,15 @@ function data_getUserEmail(_userid) {
     var data = {
         "userid": _userid
     }
-    var handel = function (response) {
-        getUserEventHandel(response);
-    }
-    makeCall("POST",url,data,handel)
+    $.ajax({
+        type: "POST",
+        url: url,
+        contentType: "application/x-www-form-urlencoded",
+        headers: "Access-Control-Allow-Origin:*",
+        data: JSON.stringify(data)
+    }).then(function (response) {
+        getUserEventHandel(response)
+    });
 }
 //---------------------------PHP API LIST FUNCTIONS---------------------------
 function data_AddList(_userid, _listname, _obj = {}) {
