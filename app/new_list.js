@@ -6,8 +6,21 @@ var lat, lon;
 var map;
 var insideCarousel = false;
 var GroupedByList = [];
-$(document).ready(function () {
+  // storemodal
+  // storemodalinfo
+  // addmodalarea
+  // storemodalclose
 
+  // addeditlistmodal
+  // addeditmodalbody
+  // addmodalarea
+  // addeditmodaldone
+
+
+
+$(document).ready(function () {
+    $('#storemodal').modal();
+    $('#addeditlistmodal').modal();
    $('.exit').click(
        function(){
            localStorage.setItem('userid', null)
@@ -237,7 +250,7 @@ function addList() {
 
 }
 function additemAddList(_itemnumber) {
-    
+  
     var item = $('<input>');
     var itemsdiv = $('#itemaddarea');
     
@@ -313,12 +326,32 @@ function drawLists(listsObjArray) {
      $('#listdisplay').show()
 
 }
+function buildAdd(_caller) {
+    
+
+}
+function buildModal(_caller, _modal, _bodytext, _buildAddListArea, _done) {
+
+
+
+     $(_modal).modal('open');
+ }
+
+
+
 function drawList(listObject) {
     console.log(listObject);
     var addTo = $('<button>')
-    $(addTo).addClass('btn add-to')
-    $(addTo).text('+ Add').click(function (event) { 
-
+    $(addTo).addClass('btn').data('type','edit')
+    $(addTo).text('+ Add').click(function (event) {
+        var caller = event.target
+        var modal = $('#addeditlistmodal')
+        var bodytext = $('#addeditmodalbody')
+        var area = $('#addmodalarea')
+        var done = $('#addeditmodaldone')
+        var buildAddListArea = buildAdd(caller)
+         buildModal(caller, modal, bodytext, buildAddListArea, done)
+       
     })
     var button = $('<button>')
     $(button).addClass('btn') 
@@ -335,8 +368,8 @@ function drawListItems(itemsObjarray) {
     var ul = $('<ul>')
   for (var itemObj of itemsObjarray) {
     var li = $('<li>')
-    $(li).data('categoryid', itemObj.walmart_category_id)
-    $(li).data('category', itemObj.walmart_category)
+    $(li).attr('data-categoryid', itemObj.walmart_category_id)
+    $(li).attr('data-category', itemObj.walmart_category)
     var ch = makeCheckBox(itemObj.name, ('gotit_' + itemObj.item_id.toString()));
     $(li).addClass('collection-item').append(ch)
   
@@ -365,7 +398,12 @@ function makeCheckBox(_label, _id = '', _checked = false) {
     return label
 }
 function sortList(event) {
-    var list = $(event.target).find('ul')
+    var list = $(event.target).closest('ul')
+    $(list, 'li').sort(sort_li).appendTo(list)
+    
+    function sort_li(a, b) {
+        return ($(b).attr('data-categoryid')) < ($(a).attr('data-categoryid')) ? 1 : -1;
+    }
 
 }
 function createMap() {

@@ -38,6 +38,7 @@ $(document).ready(function () {
         event.preventDefault();
         $('#errors').empty();
         $("#signupBtn").prop("disabled", true);
+        localStorage.clear()
         //Check if email is valid email format, name isn't blank, and zip code is 5 digits
         if (processData()) {
                 //Push email to data
