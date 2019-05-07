@@ -85,7 +85,8 @@ $(document).ready(function () {
                 var returnedData = data.message
                 console.log(returnedData)
                 $('.trendingproduct').hide();
-                $('#listdisplay').empty()
+                $('#itemaddarea').empty()
+                $('#newlist').hide();
                 checklist()
             })
 
@@ -198,7 +199,7 @@ function checklist() {
                     }
                 }
                    GroupedByList.push({
-                       list_id: i,
+                       list_id: distinctListIds[i],
                        items: items
                    })
             }
@@ -295,10 +296,13 @@ function additemAddList(_itemnumber) {
                 var catNodes = itemw.items[0].categoryNode;
                 var catNode = catNodes.split('_')
                 var catNodeId = catNode[catNode.length-1]
+                catNodeId = catNodeId ? catNodeId : 1
+                lastCategory = lastCategory ? lastCategory : 'none'
                 $(idofline).attr('data-category', catNodeId);
                 $(idofline).attr('data-categorypath', lastCategory)
             } else {
-                 $(idofline).attr('data-category', 'unknown');
+                 $(idofline).attr('data-category', 1);
+                 $(idofline).attr('data-categorypath', 'none')
             }
 
 
@@ -317,8 +321,8 @@ function drawLists(listsObjArray) {
     var display = $('#listdisplay')
     $(display).hide()
     $(display).empty()
-
-    for(var liobj in listsObjArray){
+var numberofList = listsObjArray.length
+for(let c = 0; c < numberofList; c++){
         var card = $('<div>')
         var content = $('<div>')
         $(content).addClass('card-content')
@@ -406,8 +410,6 @@ function buildModal(_caller, _modal, _bodytext, _content, _done) {
 
      $(_modal).modal('open');
  }
-
-
 
 function drawList(listObject) {
     console.log(listObject);
