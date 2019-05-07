@@ -2,8 +2,8 @@
 const walmartApiKey = 'yetbamnvuptfsnzehnsz99nr'
 const googleApiKey = 'AIzaSyDiaHiIDgafsFhfwb1XQBtKETZ1zdlrP_o'
 const shoppingListApiKey = 'q98ejf-fqwefj-8wefqw8w'
-const dataurl = 'https://fe41a14.online-server.cloud'
-//const dataurl = "http://localhost"
+//const dataurl = 'https://fe41a14.online-server.cloud'
+const dataurl = "http://localhost/php-api"
 var userslists = [];
 
 var currentUser = {
@@ -342,11 +342,14 @@ function walmart_GetItems(_item_ids) {
     var item_ids = walmart_lookUpObj.createlookupString(_item_ids)
     var endPoint = walmartEnpoints.itemLookup(item_ids)
     var url = walmartEnpoints.createEndpoint(endPoint)
-    var handel = function (response) {
-        getItemEventHandel(response)
-    }
-    var data = {};
-    makeCall("GET",url,data,handel)
+    
+     $.ajax({
+         type: "GET",
+         url: url
+     }).then(function (response) {
+         getItemEventHandel(response)
+     });
+   
 }
 function walmart_GetTrending() {
     var endPoint = walmartEnpoints.trending
@@ -361,11 +364,14 @@ function walmart_GetTrending() {
 function walmart_SearchItems(_query, refId = {}) {
       var endPoint = walmartEnpoints.search(_query)
       var url = walmartEnpoints.createEndpoint(endPoint)
-     var data = {}
-var handel = function (response) {
+  
+$.ajax({
+    type: "GET",
+    url: url
+}).then(function (response) {
     getsSearchItemEventHandel(response, refId)
-}
-      makeCall("GET",url,data,handel)
+});
+     
 }
 function mash_getUserWalmartStore(_userid){
     if(!user.zip){

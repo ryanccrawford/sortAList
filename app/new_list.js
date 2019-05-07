@@ -21,7 +21,7 @@ $(document).ready(function () {
     $('#username').text(user.email);
     createMap();
     checklist();
-    createTredndingProducts();
+    //createTredndingProducts();
 
     $('.addlist').click(function (event) {
          $('#newlist').show();
@@ -97,11 +97,11 @@ function inputNodesToList(_nodes) {
     return listitems
 }
 function createTredndingProducts() {
-    walmart_GetTrending();
+   // walmart_GetTrending();
     $(document).on('getTrending', function (data) {
         var products = data.message.items;
         if (products) {
-           makeCarousel(products)
+         //  makeCarousel(products)
         }
 
 
@@ -117,16 +117,16 @@ function createSearchedProducts(_query) {
     } else {
         return;
     }
-    walmart_SearchItems(_query);
-    $(document).on('getWalmartItemSearch', function (data) {
-        var products = data.message.data.items;
+    //walmart_SearchItems(_query);
+    // $(document).on('getWalmartItemSearch', function (data) {
+    //     var products = data.message.data.items;
       
-        if (products) {
-           makeCarousel(products)
-        }
+    //     if (products) {
+    //        makeCarousel(products)
+    //     }
 
-        insideCarousel = false;
-    })
+    //     insideCarousel = false;
+    // })
 }
 function makeCarousel(_products) {
       var carousel = $('#trendproducts')
@@ -254,13 +254,13 @@ function additemAddList(_itemnumber) {
             return;
         }
          $('.additem').removeClass('disabled')
-        $(itemleaveing).prop('readonly', true);
+        //$(itemleaveing).prop('readonly', true);
         //< i class = "material-icons" > create < /i>
         var id = $(itemleaveing).attr('id')
         var newId = "edit_" + id
         if (!$('#'+newId)) {
             var edit = $('<i>')
-            $(edit).addClass('material-icons text-black').text("create");
+            $(edit).addClass('material-icons').text("create");
             $(edit).attr('id', newId)
             $(edit).click(function (event) {
                 var parent = $(event.target).parent()
@@ -268,9 +268,9 @@ function additemAddList(_itemnumber) {
                 $(event.target).remove();
             })
 
-            $(itemleaveing).after(edit);
+            $(itemleaveing).append(edit);
         }
-        walmart_SearchItems(itemname, { lineid: '#' + it });
+        walmart_SearchItems(itemname, { lineid: '#' + (it.toString()) });
         
         $(document).on('getWalmartItemSearch', function (data) {
             var itemw = data.message.data
@@ -334,7 +334,7 @@ function drawListItems(itemsObjarray) {
     $(li).addClass('collection-item').append(ch)
   
     $(ol).append(li)
-var idname = 'sortable_' + itemsObjarray.list_id.toString()
+var idname = 'sortable_' + itemsObjarray.list_id
       $(ol).addClass('collection').attr('id', idname).sortable().disableSelection()
       
     }
