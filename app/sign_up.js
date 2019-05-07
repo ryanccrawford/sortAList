@@ -21,6 +21,7 @@ $(document).ready(function () {
             console.log(message)
             var p = $('<p>');
             p.text(message.message);
+            $('#errors').empty()
             $('#errors').append(p)
             $('#errors').show();
             $('#loginBtn').prop('disabled', false);
@@ -37,6 +38,7 @@ $(document).ready(function () {
     $("#signupBtn").on("click", function (event) {
         event.preventDefault();
         $('#errors').empty();
+        $('#errors').hide();
         $("#signupBtn").prop("disabled", true);
         localStorage.clear()
         //Check if email is valid email format, name isn't blank, and zip code is 5 digits

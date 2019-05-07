@@ -85,8 +85,6 @@ function data_AddUser(_email,_password,_zip) {
     $.ajax({
         type: "POST",
         url: url,
-        contentType: "application/x-www-form-urlencoded",
-        headers: "Access-Control-Allow-Origin:*",
         data: JSON.stringify(data)
     }).then(function (response) {
         addedUserEventHandel(response)
@@ -111,8 +109,6 @@ function data_LogInUser(_email, _password) {
     $.ajax({
         type: "POST",
         url: url,
-        contentType: "application/x-www-form-urlencoded",
-        headers: "Access-Control-Allow-Origin:*",
         data: JSON.stringify(data)
     }).then(function (response) {
         isLoggedInEventHandel(response)
