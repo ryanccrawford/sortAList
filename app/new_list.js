@@ -478,7 +478,7 @@ function sortList(event) {
     doSort(_ascending, _sortList)
     function doSort(ascending, sortList) {
 
-        sortList(sn);
+      
        var sn = function(a, b) {
 
             var aText = $(a).attr('data-category')
@@ -494,7 +494,8 @@ function sortList(event) {
 
             return 0;
         }
-        $(list).append(sortList);
+        var sl = sortList(sn);
+        $(list).append(sl);
 
     };
     
