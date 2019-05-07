@@ -421,7 +421,7 @@ function drawList(listObject) {
         var bodytext = $('#addeditmodalbody')
         var area = $('#addmodalarea')
         var done = $('#addeditmodaldone')
-        var content = buildAdd(area)
+        var content = buildAddItem(area)
          buildModal(caller, modal, bodytext, content, done)
        
     })
