@@ -327,7 +327,7 @@ for(let c = 0; c < numberofList; c++){
         var content = $('<div>')
         $(content).addClass('card-content')
 
-        var drawnList = drawList(liobj);
+        var drawnList = drawList(listsObjArray[c]);
         $(card).addClass('card col-2').addClass('shadow')
         $(content).append(drawnList)
         $(card).append(content)
