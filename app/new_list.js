@@ -386,7 +386,8 @@ function itemAdd(_itemNum){
                 $(idofline).attr('data-category', catNodeId);
                 $(idofline).attr('data-categorypath', lastCategory)
             } else {
-                 $(idofline).attr('data-category', 'unknown');
+               $(idofline).attr('data-category', '1');
+               $(idofline).attr('data-categorypath', 'none')
             }
 
 
