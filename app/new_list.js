@@ -73,7 +73,8 @@ $(document).ready(function () {
 
         if (validateItems()) {
             var listTitle = $('#newtitle').val()
-            $('#listdisplay').empty()
+            var tt = $('#listdisplay')
+            $(tt).html("")
             var area = $('#itemaddarea')
             var childeren = $(area)[0].childNodes
             var itemsToAdd = inputNodesToList(childeren)
