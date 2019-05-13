@@ -559,7 +559,7 @@ function getAuthForKroger() {
     var config = {
         clientId: "ryanccrawford@live.com",
         oauth2BaseUrl: "https://api.kroger.com/v1/connect/oauth2",
-        redirectUrl: "http://localhost/php-api/signin.htm",
+        redirectUrl: "https://fe41a14.online-server.cloud/php-api/signin.html",
         apiBaseUrl: "https://api.kroger.com"
     
     }
