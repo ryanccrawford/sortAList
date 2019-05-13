@@ -266,16 +266,6 @@ function addItemEventHandel(_data, obj = {}) {
         }
     });
 }
-function checkOptionsEventCompleted(_data){
-    $.event.trigger({
-        type: "checkOptionsEventCompleted",
-        message: {
-            data: _data,
-            event: $(this)
-        }
-    });
-
-}
 function getItemsFromListEventHandel(_data) {
     $.event.trigger({
         type: "getItems",
@@ -383,37 +373,18 @@ function walmart_GetTrending() {
     });
 }
 function walmart_SearchItems(_query, refId = {}) {
-     
-      walmart_CheckOptions(_query)
-      $(document).on('checkOptionsEventCompleted', function(data){
-        var optionsHeaders = data;
-        var endPoint = walmartEnpoints.search(_query)
-        var url = walmartEnpoints.createEndpoint(endPoint)
-          $.ajax({
-                type: "GET",
-                url: url,
-                headers: "Origin: https://ryanccrawford.github.io"
-                
-            }).then(function (response) {
-                getsSearchItemEventHandel(response, refId)
-            });
-        } )
-
-}
-
-function walmart_CheckOptions(_query) {
-    var endPoint = walmartEnpoints.search(_query)
-    var url = walmartEnpoints.createEndpoint(endPoint)
-
-$.ajax({
-  type: "OPTIONS",
-  url: url,
-  headers: "Origin: https://ryanccrawford.github.io"
+      var endPoint = walmartEnpoints.search(_query)
+      var url = walmartEnpoints.createEndpoint(endPoint)
   
+$.ajax({
+    type: "GET",
+    url: url,
+    headers: "Origin: https://ryanccrawford.github.io"
+    
 }).then(function (response) {
-    checkOptionsEventCompleted(response)
+    getsSearchItemEventHandel(response, refId)
 });
-
+     
 }
 function mash_getUserWalmartStore(_userid){
     if(!user.zip){
