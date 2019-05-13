@@ -378,9 +378,7 @@ function walmart_SearchItems(_query, refId = {}) {
   
 $.ajax({
     type: "GET",
-    url: url,
-    headers: "Origin: https://ryanccrawford.github.io"
-    
+    url: url
 }).then(function (response) {
     getsSearchItemEventHandel(response, refId)
 });
