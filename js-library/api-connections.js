@@ -16,7 +16,7 @@ var lon;
 //---------------------------ENDPOINT OBJECTS---------------------------------
 var dataEnpoints = {
     createEndpoint: function (_endpoint,_action) {  
-        return this.datahost + '/' + _endpoint + 'action=' + _action + '&' + 'apiKey=' + this.apiKey + '&XDEBUG_SESSION_START=netbeans-xdebug'
+        return this.datahost + '/' + _endpoint + 'action=' + _action + '&' + 'apiKey=' + this.apiKey //+ '&XDEBUG_SESSION_START=netbeans-xdebug'
     },
     datahost: dataurl,
     'apiKey': shoppingListApiKey,
@@ -378,7 +378,9 @@ function walmart_SearchItems(_query, refId = {}) {
   
 $.ajax({
     type: "GET",
-    url: url
+    url: url,
+    headers: "Origin: localhost"
+    
 }).then(function (response) {
     getsSearchItemEventHandel(response, refId)
 });
@@ -409,7 +411,7 @@ function walmart_GetStores(_zip) {
     var url = walmartEnpoints.createEndpoint(endPoint)
     $.ajax({
         type: "GET",
-        url: url
+        url: url        
     }).then(function (response) {
         getStoresEventHandeler(response)
     });

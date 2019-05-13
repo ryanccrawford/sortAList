@@ -21,33 +21,32 @@
 <body>
 
   <nav class="light-blue lighten-1" role="navigation">
-    <div class="nav-wrapper container"><a id="logo-container" href="index.html" class="brand-logo center"><img
-          src="assets/SortA_white.png" alt="Logo" style="height:50px; width: 50px; margin-top: 10px;"></a>
+    <div class="nav-wrapper container">
       <ul class="left hide-on-med-and-down">
         <li><a href="about.html">About Us</a></li>
       </ul>
       <ul class="left hide-on-med-and-down">
         <li><a href="contact.html">Contact</a></li>
       </ul>
+      <ul class="left hide-on-med-and-down">
+        <li><a id="logo-container" href="index.html"><img
+          src="assets/SortA_white.png" alt="Logo" style="height:50px; width: 50px; margin-top: 10px;"></a>
+      </li>
+      </ul>
+      <ul class="left hide-on-med-and-down"><li><a href="#" id="username1"></a></li></ul>
+      
       <ul class="right hide-on-med-and-down">
         <li><a class="exit">Log Out</a><i class="material-icons">cloud_off</i></li>
       </ul>
       
-      <ul class="right hide-on-med-and-down">
-        <li><a href="">Hello <span id="username"></span></a>
-        </li>
-      </ul>
-       <ul class="right hide-on-med-and-down">
-        <li><img src="assets/person_white.png" alt="" style="height:30px; margin-top: 15px">
-        </li>
-      </ul>
+     
 
       <ul id="nav-mobile" class="sidenav">
-        <li><a href="#" id="username"></a></li>
+        <li><a href="#" id="username1"></a></li>
         <li><a href="about.html">About Us</a></li>
         <li><a href="contact.html">Contact</a></li>
         <li><a class="exit">Log Out</a><i class="material-icons">cloud_off</i></li>
-
+          
       </ul>
 
 
@@ -75,9 +74,25 @@
         <a id="addeditmodaldone" class="modal-close waves-effect waves-green btn-flat">Done</a>
       </div>
     </div>
+    
 <div class="row">
   <div class="section">
-  <div class="col s6" id="nolist" style="display:none;">
+  <div class="col s5" id="newlist" style="display:none;">
+          <div class="card white darken-1">
+            <div class="card-content black-text">
+              <span class="card-title">List Name<input type="text" id="newtitle"></span>
+              <span class="black-text">To add items click '+ Item'<span>
+              <div id="itemaddarea"></div>
+            </div>
+            <div class="card-action">
+               <button class="btn orange right additem disabled">+ Item</button>
+             
+                     <button class="btn orange savelist">Save</button>
+    
+            </div> 
+          </div>
+  </div>
+  <div class="col s5" id="nolist" style="display:none;">
     <div class="card blue darken-1">
       <div class="card-content white-text">
         <span class="card-title">List</span>
@@ -89,15 +104,23 @@
       </div>
     </div>
   </div>
- 
+  <div class="col s2" id="addlist" style="display:none;">
+    <div class="card-panel">
+     <div class="card-content black-text">
+      
+        <p class="black-text">Add New List </p>
+        
+        </div>
+        <div class="card-action"><button class="btn orange right addlist" >+</button></div>
+    </div>
+    </div>
 </div>
 </div>
 <div class="row">
-  <h2 class="header">My List</h2>
-  <div class="col s12" id="listdisplay">
-
+    <div class="col s12" id="listdisplay">
+  
+    </div>
   </div>
-</div>
 <div class="row" >
 <div class="col s6 trendingproduct" style="display:none;">
   <h2 class="header">Popular Items</h2>
@@ -108,21 +131,7 @@
   </div>
     <div class="section">
 
-    <div class="col s6" id="newlist" style="display:none;">
-      <div class="card white darken-1">
-        <div class="card-content black-text">
-          <span class="card-title">Title <input type="text" id="newtitle"></span>
-          <span class="black-text">To add items click 'Add Items'<span>
-          <div id="itemaddarea"></div>
-        </div>
-        <div class="card-action">
-           <button class="btn orange right additem disabled">Add Item</button>
-         
-                 <button class="btn orange savelist">Save List</button>
-
-        </div> 
-      </div>
-    </div>
+    
      <div class="col s6" id="mapcard" style="display:none;">
        <div class="card blue darken-1">
          <div class="card-content white-text" style="height:500px;">

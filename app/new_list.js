@@ -195,7 +195,9 @@ function checklist() {
                 var items = []
                 for (var item of obj) {
                     if (item.list_id == distinctListIds[i]) {
+                        if(!Array.prototype.includes(items)){
                          items.push(item)
+                        }
                     }
                 }
                    GroupedByList.push({
@@ -218,15 +220,16 @@ function checklist() {
             // walmart_price: null
 
             drawLists(GroupedByList)
+            startWithNoList('#addlist')
         } else {
-            startWithNoList()
+            startWithNoList('#nolist')
 
 
         }
     })
 }
-function startWithNoList() {
-    $('#nolist').show();
+function startWithNoList(_element) {
+    $(_element).show();
    var itemtitle = $('#newtitle');
    if ($(itemtitle).val().length > 0) {
        $('.additem').removeClass('disabled');
@@ -340,7 +343,7 @@ function itemAdd(_itemNum){
 
   
     var item = $('<input>');
-    var itemsdiv = $('#itemaddarea');
+   
     
     $(item).addClass('listitem');
     var it = 'item_' + _itemnumber.toString();
@@ -374,6 +377,7 @@ function itemAdd(_itemNum){
         walmart_SearchItems(itemname, { lineid: '#' + (it.toString()) });
         
         $(document).on('getWalmartItemSearch', function (data) {
+           
             var itemw = data.message.data
             var idofline = data.message.arguments.lineid
             if (itemw.items && itemw.items.length > 0) {
@@ -389,14 +393,15 @@ function itemAdd(_itemNum){
                $(idofline).attr('data-category', '1');
                $(idofline).attr('data-categorypath', 'none')
             }
-
-
+            
+            var itemsdiv = $('#itemaddarea');
+            $(itemsdiv).append(idofline);
         })
 
 
 
     })
-    $(itemsdiv).append(item);
+   
 }
 function buildAddItem(_appendArea) {
     var g = $(_appendArea)
